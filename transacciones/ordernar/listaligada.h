@@ -8,20 +8,14 @@ class ListaLigada {
 private:
     Nodo* cabeza; // Puntero al primer nodo de la lista ligada
 
-    // Método auxiliar para dividir la lista en dos partes según el pivote
-    Nodo* dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuevoAlto);
+    // Método auxiliar para dividir la lista en dos mitades
+    Nodo* split(Nodo* head);
 
-    // Método auxiliar para realizar el QuickSort de manera recursiva
-    void quickSortRec(Nodo* bajo, Nodo* alto);
+    // Método auxiliar para fusionar dos listas ordenadas
+    Nodo* merge(Nodo* left, Nodo* right);
 
-    // Método auxiliar para obtener el último nodo de una lista
-    Nodo* obtenerUltimo(Nodo* cabeza);
-
-    // Método auxiliar para dividir la lista en dos mitades para MergeSort
-    Nodo* mergeSortRec(Nodo* cabeza);
-
-    // Método auxiliar para unir dos listas ordenadas en una sola lista
-    Nodo* unir(Nodo* primero, Nodo* segundo);
+    // Método auxiliar para realizar el Merge Sort de manera recursiva
+    Nodo* mergeSortRec(Nodo* head);
 
 public:
     // Constructor que inicializa la lista vacía
@@ -37,16 +31,15 @@ public:
     void imprimir() const;
 
     // Método para intercambiar dos nodos si el primero es mayor que el segundo
-    void intercambiar(Nodo* nodo1, Nodo* nodo2);
+    void swap(Nodo* nodo1, Nodo* nodo2);
+
+
 
     // Método para ordenar la lista usando el método de burbuja
     void ordenarBurbuja();
 
     // Método para ordenar la lista usando el método de Merge Sort
     void mergeSort();
-
-    // Método para ordenar la lista usando el método de QuickSort
-    void quickSort();
 };
 
 #endif // LISTALIGADA_H

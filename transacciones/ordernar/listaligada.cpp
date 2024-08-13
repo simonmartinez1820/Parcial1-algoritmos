@@ -10,14 +10,14 @@ ListaLigada::~ListaLigada() {
     Nodo* actual = cabeza;
     while (actual != nullptr) {
         Nodo* siguiente = actual->siguiente;
-        delete actual; // Liberar la memoria del nodo actual
-        actual = siguiente; // Avanzar al siguiente nodo
+        delete actual;
+        actual = siguiente;
     }
 }
 
 // Método para agregar un nodo al final de la lista
 void ListaLigada::agregar(const Transaccion& transaccion) {
-    Nodo* nuevoNodo = new Nodo(transaccion); // Crear un nuevo nodo con los datos de transaccion
+    Nodo* nuevoNodo = new Nodo(transaccion);
     if (cabeza == nullptr) {
         cabeza = nuevoNodo; // Si la lista está vacía, el nuevo nodo se convierte en la cabeza
     } else {
@@ -39,134 +39,76 @@ void ListaLigada::imprimir() const {
 }
 
 // Método para intercambiar dos nodos si el primero es mayor que el segundo
-void ListaLigada::intercambiar(Nodo* nodo1, Nodo* nodo2) {
-    Transaccion temp = nodo1->data; // Guardar temporalmente los datos de nodo1
-    nodo1->data = nodo2->data; // Copiar los datos de nodo2 a nodo1
-    nodo2->data = temp; // Copiar los datos originales de nodo1 a nodo2
+void ListaLigada::swap(Nodo* nodo1, Nodo* nodo2) {
+    Transaccion temp = nodo1->data;
+    nodo1->data = nodo2->data;
+    nodo2->data = temp;
 }
 
 // Método para ordenar la lista usando el método de burbuja
 void ListaLigada::ordenarBurbuja() {
-    if (cabeza == nullptr) return; // Si la lista está vacía, no hacer nada
+    if (cabeza == nullptr) return;
 
-    bool intercambiado;
+    bool swapped;
     do {
-        intercambiado = false;
+        swapped = false;
         Nodo* actual = cabeza;
         while (actual->siguiente != nullptr) {
             if (actual->data > actual->siguiente->data) {
-                intercambiar(actual, actual->siguiente); // Intercambiar nodos si están en el orden incorrecto
-                intercambiado = true;
+                swap(actual, actual->siguiente);
+                swapped = true;
             }
-            actual = actual->siguiente; // Avanzar al siguiente nodo
+            actual = actual->siguiente;
         }
-    } while (intercambiado); // Repetir hasta que no haya intercambios
+    } while (swapped);
 }
 
-// Método auxiliar para dividir la lista en dos partes según el pivote
-Nodo* ListaLigada::dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuevoAlto) {
-    if (bajo == nullptr || alto == nullptr) return nullptr; // Verificar si la lista es válida
-
-    Nodo* pivote = alto; // El último nodo es el pivote
-    Nodo* previo = nullptr;
-    Nodo* actual = bajo;
-    Nodo* cola = pivote;
-
-    while (actual != pivote) {
-        if (actual->data < pivote->data) {
-            if (*nuevoBajo == nullptr) *nuevoBajo = actual;
-            previo = actual;
-            actual = actual->siguiente; // Avanzar al siguiente nodo
-        } else {
-            if (previo) previo->siguiente = actual->siguiente;
-            Nodo* temp = actual->siguiente;
-            actual->siguiente = nullptr;
-            cola->siguiente = actual;
-            cola = actual;
-            actual = temp;
-        }
+// Método auxiliar para dividir la lista en dos mitades
+Nodo* ListaLigada::split(Nodo* head) {
+    if (head == nullptr || head->siguiente == nullptr) {
+        return nullptr; // La lista está vacía o tiene un solo nodo
     }
 
-    if (*nuevoBajo == nullptr) *nuevoBajo = pivote;
-    *nuevoAlto = cola;
-
-    return pivote;
-}
-
-// Método auxiliar para realizar el QuickSort de manera recursiva
-void ListaLigada::quickSortRec(Nodo* bajo, Nodo* alto) {
-    if (bajo != nullptr && alto != nullptr && bajo != alto && bajo != alto->siguiente) {
-        Nodo* nuevoBajo = nullptr;
-        Nodo* nuevoAlto = nullptr;
-
-        Nodo* pivote = dividir(bajo, alto, &nuevoBajo, &nuevoAlto);
-
-        if (nuevoBajo != pivote) {
-            Nodo* temp = nuevoBajo;
-            while (temp->siguiente != pivote) temp = temp->siguiente;
-            temp->siguiente = nullptr;
-
-            quickSortRec(nuevoBajo, temp);
-
-            temp = obtenerUltimo(nuevoBajo);
-            temp->siguiente = pivote;
-        }
-
-        quickSortRec(pivote->siguiente, nuevoAlto);
-    }
-}
-
-// Método auxiliar para obtener el último nodo de una lista
-Nodo* ListaLigada::obtenerUltimo(Nodo* cabeza) {
-    while (cabeza != nullptr && cabeza->siguiente != nullptr) {
-        cabeza = cabeza->siguiente; // Avanzar al siguiente nodo
-    }
-    return cabeza; // Retornar el último nodo
-}
-
-// Método para ordenar la lista usando el método de QuickSort
-void ListaLigada::quickSort() {
-    Nodo* cola = obtenerUltimo(cabeza);
-    quickSortRec(cabeza, cola);
-}
-
-// Método auxiliar para dividir la lista en dos mitades para MergeSort
-Nodo* ListaLigada::mergeSortRec(Nodo* cabeza) {
-    if (cabeza == nullptr || cabeza->siguiente == nullptr) return cabeza; // Lista vacía o con un solo nodo
-
-    Nodo* medio = cabeza;
-    Nodo* fin = cabeza;
-    while (fin->siguiente != nullptr && fin->siguiente->siguiente != nullptr) {
-        fin = fin->siguiente->siguiente;
-        medio = medio->siguiente;
+    Nodo* slow = head;
+    Nodo* fast = head;
+    while (fast->siguiente != nullptr && fast->siguiente->siguiente != nullptr) {
+        slow = slow->siguiente; // Avanzar el puntero lento
+        fast = fast->siguiente->siguiente; // Avanzar el puntero rápido
     }
 
-    Nodo* mitad = medio->siguiente;
-    medio->siguiente = nullptr;
-
-    Nodo* izquierda = mergeSortRec(cabeza);
-    Nodo* derecha = mergeSortRec(mitad);
-
-    return unir(izquierda, derecha);
+    Nodo* mitad = slow->siguiente; // La segunda mitad comienza en el siguiente nodo del puntero lento
+    slow->siguiente = nullptr; // Dividir la lista en dos mitades
+    return mitad;
 }
 
-// Método auxiliar para unir dos listas ordenadas en una sola lista
-Nodo* ListaLigada::unir(Nodo* primero, Nodo* segundo) {
-    if (primero == nullptr) return segundo;
-    if (segundo == nullptr) return primero;
+// Método auxiliar para fusionar dos listas ordenadas
+Nodo* ListaLigada::merge(Nodo* left, Nodo* right) {
+    if (left == nullptr) return right; // Si la lista izquierda está vacía, devolver la lista derecha
+    if (right == nullptr) return left; // Si la lista derecha está vacía, devolver la lista izquierda
 
-    if (primero->data < segundo->data) {
-        primero->siguiente = unir(primero->siguiente, segundo);
-        primero->siguiente->siguiente = nullptr;
-        return primero;
+    if (left->data < right->data) {
+        left->siguiente = merge(left->siguiente, right); // Fusionar el resto de la lista izquierda con la lista derecha
+        return left;
     } else {
-        segundo->siguiente = unir(primero, segundo->siguiente);
-        segundo->siguiente->siguiente = nullptr;
-        return segundo;
+        right->siguiente = merge(left, right->siguiente); // Fusionar la lista izquierda con el resto de la lista derecha
+        return right;
     }
+}
+
+// Método auxiliar para realizar el Merge Sort de manera recursiva
+Nodo* ListaLigada::mergeSortRec(Nodo* head) {
+    if (head == nullptr || head->siguiente == nullptr) {
+        return head; // Si la lista está vacía o tiene un solo nodo, ya está ordenada
+    }
+
+    Nodo* mitad = split(head); // Dividir la lista en dos mitades
+    Nodo* izquierda = mergeSortRec(head); // Ordenar la primera mitad
+    Nodo* derecha = mergeSortRec(mitad); // Ordenar la segunda mitad
+
+    return merge(izquierda, derecha); // Fusionar las dos mitades ordenadas
 }
 
 // Método para ordenar la lista usando el método de Merge Sort
 void ListaLigada::mergeSort() {
-    cabeza = mergeSortRec(cabeza);
+    cabeza = mergeSortRec(cabeza); // Ordenar la lista y actualizar la cabeza
 }

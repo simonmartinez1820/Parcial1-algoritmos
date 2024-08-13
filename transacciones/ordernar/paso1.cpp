@@ -31,7 +31,7 @@ int main() {
     }
     lista.imprimir();
     std::cout<<"====="<<endl;
-    lista.ordenarBurbuja();
+    lista.mergeSort();
     lista.imprimir();
     
     return 0;
