@@ -5,28 +5,15 @@
 #include "listaligada.h"
 #include "Archivo.h"
 
-// Archivo generador;
-// Archivo generador2;
 
-// void cargarDatos(Archivo &gener, const std::string& file) {
-//     gener.leerDesdeArchivo(file);
-// }
-
-// std::string SimularNombreCompleto() {
-//     std::string nombreCompleto = generador.obtenerItemAleatorio() + " " +
-//                                  generador2.obtenerItemAleatorio() + " " +
-//                                  generador2.obtenerItemAleatorio();
-//     return nombreCompleto;
-// }
 using namespace std;
 
 int main() {
     Archivo generador;
 
-    // (int cuenta, int monto, std::string& tipo_transaccion, const std::string& fecha, int hora) 
     ListaLigada lista;
 
-    int i = 250000;
+    int i = 250;
  
     generador.leerDesdeArchivo("transferencias.txt");
     while(i--){
@@ -44,37 +31,8 @@ int main() {
     }
     lista.imprimir();
     std::cout<<"====="<<endl;
-    lista.mergeSort();
+    lista.ordenarBurbuja();
     lista.imprimir();
-    
-    // cout<<transaccion<<endl;
-    // cargarDatos(generador, "nombres.txt");
-    // cargarDatos(generador2, "apellidos.txt");
-
-    // ListaLigada lista;
-    // for (int i = 0; i < 1000; i++) {
-    //     lista.agregar(Persona(SimularNombreCompleto(), 
-    //                           generador.generarNumeroEntero(12, 89),
-    //                           generador.fechaAleatoria(1972, 2023)));
-    // }
-    // ListaLigada lista;
-    // lista.agregar(2324234,234234);
-    // lista.agregar(678,567);
-    // lista.agregar(2324234,34234);
-    // lista.agregar(45,86734);
-    // std::cout << "Lista antes de ordenar:" << std::endl;
-    // lista.imprimir();
-
-    // // Medir el tiempo de ordenación
-    // auto inicio = std::chrono::high_resolution_clock::now(); // Captura el tiempo de inicio
-    //   //lista.ordenarBurbuja(); // Llama al método de ordenación
-    //   lista.mergeSort();
-    // auto fin = std::chrono::high_resolution_clock::now(); // Captura el tiempo de fin
-    // auto duracion = std::chrono::duration_cast<std::chrono::milliseconds>(fin - inicio).count(); // Calcula la duración en milisegundos
-
-    // std::cout << "Lista después de ordenar:" << std::endl;
-    // lista.imprimir();
-    // std::cout << "Tiempo de ordenación: " << duracion << " ms" << std::endl; // Imprime la duración
     
     return 0;
 }

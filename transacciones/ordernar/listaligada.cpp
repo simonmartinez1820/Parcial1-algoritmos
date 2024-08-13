@@ -40,7 +40,7 @@ void ListaLigada::imprimir() const {
 
 // Método para intercambiar dos nodos si el primero es mayor que el segundo
 void ListaLigada::intercambiar(Nodo* nodo1, Nodo* nodo2) {
-    transaccion temp = nodo1->data; // Guardar temporalmente los datos de nodo1
+    Transaccion temp = nodo1->data; // Guardar temporalmente los datos de nodo1
     nodo1->data = nodo2->data; // Copiar los datos de nodo2 a nodo1
     nodo2->data = temp; // Copiar los datos originales de nodo1 a nodo2
 }

@@ -4,21 +4,7 @@
 #include "producto.h"
 #include "listaligada.h"
 
-// #include "Archivo.h"
 
-// Archivo generadorProducto;
-// Archivo generador2;
-
-// void cargarDatos(Archivo &gener, const std::string& file) {
-//     gener.leerDesdeArchivo(file);
-// }
-
-// std::string SimularNombreCompleto() {
-//     std::string nombreCompleto = generadorProducto.obtenerItemAleatorio() + " " +
-//                                  generador2.obtenerItemAleatorio() + " " +
-//                                  generador2.obtenerItemAleatorio();
-//     return nombreCompleto;
-// }
 using namespace std;
 
 int main() {
@@ -29,7 +15,7 @@ int main() {
     Archivo generadorMarca;
     
 
-    int i = 200;
+    int i = 20;
  
     generadorProducto.leerDesdeArchivo("producto.txt");
     generadorMarca.leerDesdeArchivo("marcas.txt");
@@ -46,14 +32,10 @@ int main() {
     }
     
     lista.imprimir();
-    lista.mergeSort();
+    cout<<"====="<<endl;
+    lista.ordenarBurbuja();
     lista.imprimir();
-    //     lista.agregar(Transaccion (cuenta, valor,tipo,anio,mes,dia,hora,minuto));
-    // }
-    // lista.imprimir();
-    // std::cout<<"====="<<endl;
-    // lista.mergeSort();
-    // lista.imprimir();
+
     return 0;
 
     // return 0;
