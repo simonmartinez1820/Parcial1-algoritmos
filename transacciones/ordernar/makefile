@@ -1,18 +1,18 @@
 # Variables
 CXX = g++
 CXXFLAGS = -Wall  #opción -Wall es una bandera del compilador g++ que habilita una serie de advertencias (warnings) útiles
-OBJ = paso1.o transaccion.o nodo.o listaligada.o archivo.o
+OBJ = paso2.o transaccion.o nodo.o listaligada.o archivo.o
 TARGET = programa
 
 # Regla para compilar el programa
 $(TARGET): $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ)
 
-# Regla para compilar paso1.cpp
-paso1.o: paso1.cpp transaccion.h nodo.h listaligada.h archivo.h
-	$(CXX) $(CXXFLAGS) -c paso1.cpp
+# Regla para compilar paso2.cpp
+paso2.o: paso2.cpp transaccion.h nodo.h listaligada.h archivo.h
+	$(CXX) $(CXXFLAGS) -c paso2.cpp
 
-# Regla para compilar transaccion.cpp transaccion.o: transaccion.cpp transaccion.h
+# Regla para compilar transaccion.cpp
 transaccion.o: transaccion.cpp transaccion.h
 	$(CXX) $(CXXFLAGS) -c transaccion.cpp
 
