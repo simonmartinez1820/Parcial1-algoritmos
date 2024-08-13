@@ -25,7 +25,7 @@ public:
     ~ListaLigada();
 
     // Método para agregar un nodo al final de la lista
-    void agregar(const Transaccion& transaccion);
+    void agregar(const Producto& producto);
 
     // Método para imprimir todos los nodos de la lista
     void imprimir() const;

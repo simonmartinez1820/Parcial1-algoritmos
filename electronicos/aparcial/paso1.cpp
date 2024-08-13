@@ -33,7 +33,7 @@ int main() {
     
     lista.imprimir();
     cout<<"====="<<endl;
-    lista.ordenarBurbuja();
+    lista.mergeSort();
     lista.imprimir();
 
     return 0;

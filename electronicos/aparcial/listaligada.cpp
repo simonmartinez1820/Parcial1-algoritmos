@@ -16,8 +16,8 @@ ListaLigada::~ListaLigada() {
 }
 
 // Método para agregar un nodo al final de la lista
-void ListaLigada::agregar(const Transaccion& transaccion) {
-    Nodo* nuevoNodo = new Nodo(transaccion);
+void ListaLigada::agregar(const Producto& producto) {
+    Nodo* nuevoNodo = new Nodo(producto);
     if (cabeza == nullptr) {
         cabeza = nuevoNodo; // Si la lista está vacía, el nuevo nodo se convierte en la cabeza
     } else {
@@ -40,7 +40,7 @@ void ListaLigada::imprimir() const {
 
 // Método para intercambiar dos nodos si el primero es mayor que el segundo
 void ListaLigada::swap(Nodo* nodo1, Nodo* nodo2) {
-    Transaccion temp = nodo1->data;
+    Producto temp = nodo1->data;
     nodo1->data = nodo2->data;
     nodo2->data = temp;
 }
