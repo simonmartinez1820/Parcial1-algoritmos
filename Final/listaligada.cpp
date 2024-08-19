@@ -1,6 +1,9 @@
 #include "listaligada.h"
 #include <iostream>
+#include <variant>
 #include <chrono> // Biblioteca para medir el tiempo de ejecución
+
+
 
 // Constructor que inicializa la lista vacía
 ListaLigada::ListaLigada() : cabeza(nullptr) {}
@@ -16,8 +19,8 @@ ListaLigada::~ListaLigada() {
 }
 
 // Método para agregar un nodo al final de la lista
-void ListaLigada::agregar(const Transaccion& transaccion) {
-    Nodo* nuevoNodo = new Nodo(transaccion); // Crear un nuevo nodo con los datos de transaccion
+void ListaLigada::agregar(const Objeto& objeto) {
+    Nodo* nuevoNodo = new Nodo(objeto); // Crear un nuevo nodo con los datos de objeto
     if (cabeza == nullptr) {
         cabeza = nuevoNodo; // Si la lista está vacía, el nuevo nodo se convierte en la cabeza
     } else {
@@ -38,15 +41,19 @@ void ListaLigada::imprimir() const {
     }
 }
 
-// Método para intercambiar dos nodos si el primero es mayor que el segundo
+
+// Método para intercambiar dos nodos si el left es mayor que el right
 void ListaLigada::intercambiar(Nodo* nodo1, Nodo* nodo2) {
-    Transaccion temp = nodo1->data; // Guardar temporalmente los datos de nodo1
+    Objeto temp = nodo1->data; // Guardar temporalmente los datos de nodo1
     nodo1->data = nodo2->data; // Copiar los datos de nodo2 a nodo1
     nodo2->data = temp; // Copiar los datos originales de nodo1 a nodo2
 }
 
 // Método para ordenar la lista usando el método de burbuja
-void ListaLigada::ordenarBurbuja() {
+
+
+
+void ListaLigada::ordenarBurbuja(std::string str1,std::string str2, int criterio) {
     if (cabeza == nullptr) return; // Si la lista está vacía, no hacer nada
 
     bool intercambiado;
@@ -54,7 +61,8 @@ void ListaLigada::ordenarBurbuja() {
         intercambiado = false;
         Nodo* actual = cabeza;
         while (actual->siguiente != nullptr) {
-            if (actual->data > actual->siguiente->data) {
+
+            if (actual->data.comparacion(actual->siguiente->data,str1,str2,criterio)) {
                 intercambiar(actual, actual->siguiente); // Intercambiar nodos si están en el orden incorrecto
                 intercambiado = true;
             }
@@ -73,7 +81,8 @@ Nodo* ListaLigada::dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuev
     Nodo* cola = pivote;
 
     while (actual != pivote) {
-        if (actual->data < pivote->data) {
+        // actual->data < pivote->data
+        if (true) {
             if (*nuevoBajo == nullptr) *nuevoBajo = actual;
             previo = actual;
             actual = actual->siguiente; // Avanzar al siguiente nodo
@@ -133,12 +142,31 @@ void ListaLigada::quickSort() {
 
 
 
+
+// Método auxiliar para dividir la lista en dos mitades
+Nodo* ListaLigada::split(Nodo* head) {
+    if (head == nullptr || head->siguiente == nullptr) {
+        return nullptr; // La lista está vacía o tiene un solo nodo
+    }
+
+    Nodo* slow = head;
+    Nodo* fast = head;
+    while (fast->siguiente != nullptr && fast->siguiente->siguiente != nullptr) {
+        slow = slow->siguiente; // Avanzar el puntero lento
+        fast = fast->siguiente->siguiente; // Avanzar el puntero rápido
+    }
+
+    Nodo* mitad = slow->siguiente; // La segunda mitad comienza en el siguiente nodo del puntero lento
+    slow->siguiente = nullptr; // Dividir la lista en dos mitades
+    return mitad;
+}
+
 // Método auxiliar para fusionar dos listas ordenadas
 Nodo* ListaLigada::merge(Nodo* left, Nodo* right) {
     if (left == nullptr) return right; // Si la lista izquierda está vacía, devolver la lista derecha
     if (right == nullptr) return left; // Si la lista derecha está vacía, devolver la lista izquierda
-
-    if (left->data < right->data) {
+// left->data>right->data
+            if (true) {
         left->siguiente = merge(left->siguiente, right); // Fusionar el resto de la lista izquierda con la lista derecha
         return left;
     } else {
@@ -163,22 +191,4 @@ Nodo* ListaLigada::mergeSortRec(Nodo* head) {
 // Método para ordenar la lista usando el método de Merge Sort
 void ListaLigada::mergeSort() {
     cabeza = mergeSortRec(cabeza); // Ordenar la lista y actualizar la cabeza
-}
-
-// Método auxiliar para dividir la lista en dos mitades
-Nodo* ListaLigada::split(Nodo* head) {
-    if (head == nullptr || head->siguiente == nullptr) {
-        return nullptr; // La lista está vacía o tiene un solo nodo
-    }
-
-    Nodo* slow = head;
-    Nodo* fast = head;
-    while (fast->siguiente != nullptr && fast->siguiente->siguiente != nullptr) {
-        slow = slow->siguiente; // Avanzar el puntero lento
-        fast = fast->siguiente->siguiente; // Avanzar el puntero rápido
-    }
-
-    Nodo* mitad = slow->siguiente; // La segunda mitad comienza en el siguiente nodo del puntero lento
-    slow->siguiente = nullptr; // Dividir la lista en dos mitades
-    return mitad;
 }

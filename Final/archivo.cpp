@@ -1,6 +1,7 @@
 #include "archivo.h"
 #include <iostream>
 
+
 // Constructor
 Archivo::Archivo() {
     // Inicializar el generador de números aleatorios con el tiempo actual
@@ -22,9 +23,33 @@ void Archivo::leerDesdeArchivo(const std::string& nombreArchivo) {
         std::cerr << "No se pudo abrir el archivo: " << nombreArchivo << std::endl;
     }
 }
+void Archivo::leerDesdeArchivo2(const std::string& nombreArchivo) {
+    std::ifstream archivo(nombreArchivo);
+    if (archivo.is_open()) {
+        std::string texto;
+        while (std::getline(archivo, texto)) {
+            items2.push_back(texto);
+        }
+        archivo.close();
+    } else {
+        std::cerr << "No se pudo abrir el archivo: " << nombreArchivo << std::endl;
+    }
+}
+void Archivo::leerDesdeArchivo3(const std::string& nombreArchivo) {
+    std::ifstream archivo(nombreArchivo);
+    if (archivo.is_open()) {
+        std::string texto;
+        while (std::getline(archivo, texto)) {
+            items3.push_back(texto);
+        }
+        archivo.close();
+    } else {
+        std::cerr << "No se pudo abrir el archivo: " << nombreArchivo << std::endl;
+    }
+}
 
 // Método para imprimir los items
-void Archivo::imprimirItems() const {
+void Archivo::imprimirItems() {
     int i=1;
     for (const auto& item : items) {
         std::cout << "["<< i << "]: " <<item << std::endl;
@@ -34,11 +59,25 @@ void Archivo::imprimirItems() const {
 }
 
 // Método para retornar un item aleatorio
-std::string Archivo::obtenerItemAleatorio() const {
+std::string Archivo::obtenerItemAleatorio(){
     if (items.empty()) {
         return "No hay nombres en la lista.";
     }
     int indiceAleatorio = std::rand() % items.size();
+    return items[indiceAleatorio];
+}
+std::string Archivo::obtenerItemAleatorio2(){
+    if (items.empty()) {
+        return "No hay nombres en la lista.";
+    }
+    int indiceAleatorio = std::rand() % items2.size();
+    return items[indiceAleatorio];
+}
+std::string Archivo::obtenerItemAleatorio3(){
+    if (items.empty()) {
+        return "No hay nombres en la lista.";
+    }
+    int indiceAleatorio = std::rand() % items3.size();
     return items[indiceAleatorio];
 }
 
@@ -49,9 +88,9 @@ std::string Archivo::fechaAleatoria(int añoInicial, int fechaTope) const {
     int dia = 1 + std::rand() % 28;  // Simplificación: todos los meses tienen 28 días
 
     std::stringstream ss;
-    ss << std::setw(2) << std::setfill('0') << dia << "/"
+    ss << std::setw(2) << std::setfill('0') << año << "/"
        << std::setw(2) << std::setfill('0') << mes << "/"
-       << año;
+       << std::setw(2) << std::setfill('0') << dia ;
     return ss.str();
 }
 
@@ -65,3 +104,23 @@ float Archivo::generarNumeroFloat(float min, float max) const {
     float random = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
     return min + random * (max - min);
 }
+
+std::string Archivo::horaAleatoria() const{
+
+    int hora = 1 + std::rand() % 24;
+    int minuto = 1 + std::rand() % 60;
+
+    std::stringstream ss;
+    ss << std::setw(2) << std::setfill('0') << hora << ":"
+    << std::setw(2) << std::setfill('0') << minuto;
+    return ss.str();
+
+}
+
+void Archivo::limpiar(){
+items.clear();
+items2.clear();
+items3.clear();
+
+}
+

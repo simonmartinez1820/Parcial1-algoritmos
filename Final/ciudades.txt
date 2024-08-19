@@ -1,0 +1,8 @@
+medellin
+bogota
+cali
+pereira
+monteria
+mompox
+cartagena
+barranquilla

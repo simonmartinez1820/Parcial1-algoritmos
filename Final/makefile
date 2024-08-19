@@ -1,31 +1,27 @@
 # Variables
 CXX = g++
 CXXFLAGS = -Wall  #opción -Wall es una bandera del compilador g++ que habilita una serie de advertencias (warnings) útiles
-OBJ = paso2.o transaccion.o nodo.o listaligada.o archivo.o base.o
+OBJ = main.o objeto.o nodo.o listaligada.o archivo.o
 TARGET = programa
 
 # Regla para compilar el programa
 $(TARGET): $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ)
 
-# Regla para compilar paso2.cpp
-paso2.o: base.cpp base.h
-	$(CXX) $(CXXFLAGS) -c base.cpp
+# Regla para compilar main.cpp
+main.o: main.cpp objeto.h nodo.h listaligada.h archivo.h
+	$(CXX) $(CXXFLAGS) -c main.cpp
 
-# Regla para compilar paso2.cpp
-paso2.o: paso2.cpp transaccion.h nodo.h listaligada.h archivo.h
-	$(CXX) $(CXXFLAGS) -c paso2.cpp
-
-# Regla para compilar transaccion.cpp
-transaccion.o: transaccion.cpp transaccion.h base.h
-	$(CXX) $(CXXFLAGS) -c transaccion.cpp
+# Regla para compilar objeto.cpp
+objeto.o: objeto.cpp objeto.h
+	$(CXX) $(CXXFLAGS) -c objeto.cpp
 
 # Regla para compilar nodo.cpp
-nodo.o: nodo.cpp nodo.h transaccion.h
+nodo.o: nodo.cpp nodo.h objeto.h
 	$(CXX) $(CXXFLAGS) -c nodo.cpp
 
 # Regla para compilar listaligada.cpp
-listaligada.o: listaligada.cpp listaligada.h nodo.h transaccion.h
+listaligada.o: listaligada.cpp listaligada.h nodo.h objeto.h
 	$(CXX) $(CXXFLAGS) -c listaligada.cpp
 
 # Regla para compilar archivo.cpp

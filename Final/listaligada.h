@@ -29,6 +29,8 @@ private:
     
 
 public:
+
+
     // Constructor que inicializa la lista vacía
     ListaLigada();
 
@@ -36,7 +38,7 @@ public:
     ~ListaLigada();
 
     // Método para agregar un nodo al final de la lista
-    void agregar(const Transaccion& transaccion);
+    void agregar(const Objeto& objeto);
 
     // Método para imprimir todos los nodos de la lista
     void imprimir() const;
@@ -45,7 +47,9 @@ public:
     void intercambiar(Nodo* nodo1, Nodo* nodo2);
 
     // Método para ordenar la lista usando el método de burbuja
-    void ordenarBurbuja();
+
+void ordenarBurbuja(std::string ,std::string , int);
+    // void ordenarBurbuja();
 
     // Método para ordenar la lista usando el método de Merge Sort
     void mergeSort();

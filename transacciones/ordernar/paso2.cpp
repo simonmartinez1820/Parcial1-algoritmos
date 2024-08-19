@@ -10,10 +10,10 @@ Archivo generador2;
 void cargarDatos(ListaLigada &lista) {
     // Cargar datos en el archivo generador y generador2
     generador.leerDesdeArchivo("transferencias.txt");
-  
 
+   
   
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 40; i++) {
         // Agregar personas con nombres aleatorios, edades y fechas aleatorias a la lista
         lista.agregar(Transaccion(
         generador.generarNumeroEntero(111111,999999),
@@ -48,7 +48,7 @@ int main() {
     cargarDatos(lista);
     
     std::cout << "Lista original:" << std::endl;
-    lista.imprimir();
+    // lista.imprimir();
     
     // Clonar la lista para las pruebas de ordenamiento
     ListaLigada listaBurbuja = lista;
@@ -56,9 +56,9 @@ int main() {
     ListaLigada listaQuickSort = lista;
     
     // Medir tiempo para Burbuja
-    medirTiempoOrdenamiento([&]() { listaBurbuja.ordenarBurbuja(); }, listaBurbuja, "ordenarBurbuja");
-    std::cout << "Lista ordenada por Burbuja:" << std::endl;
-    listaBurbuja.imprimir();
+    // medirTiempoOrdenamiento([&]() { listaBurbuja.ordenarBurbuja(); }, listaBurbuja, "ordenarBurbuja");
+    // std::cout << "Lista ordenada por Burbuja:" << std::endl;
+    // listaBurbuja.imprimir();
     
     // Medir tiempo para MergeSort
     medirTiempoOrdenamiento([&]() { listaMergeSort.mergeSort(); }, listaMergeSort, "mergeSort");
@@ -68,7 +68,7 @@ int main() {
     // Medir tiempo para QuickSort
     medirTiempoOrdenamiento([&]() { listaQuickSort.quickSort(); }, listaQuickSort, "quickSort");
     std::cout << "Lista ordenada por QuickSort:" << std::endl;
-    listaQuickSort.imprimir();
+    // listaQuickSort.imprimir();
     
     return 0;
 }
