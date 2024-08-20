@@ -22,22 +22,24 @@ private:
 
         std::vector<std::string> atributos;
         std::vector<std::string> valores;
-                std::unordered_map<std::string, std::string> hashmap;
+        std::unordered_map<std::string, std::string> hashmap;
+        int criterio1;
+        std::string criterio2;
 
         // hacerlos funciones del objeto para llamarlo
-
-
-
     
 
 public:
 
     // Constructor que inicializa los atributos nombre, edad y fecha
-    Objeto( const std::string);
+    Objeto(const std::string);
     
     std::unordered_map<std::string, std::string> getHashmap() const;
 
-    bool comparacion(const Objeto& otra,std::string ,std::string ,int);
+
+int getCriterio1() const;
+std::string getCriterio2() const;
+    bool comparacion(const Objeto& otra,std::string ,std::string ,int) const;
     void cargarMedico();
     void cargarTransferencia();
     void cargarVuelos();
@@ -45,7 +47,10 @@ public:
     void cargarElectronicos();
 
     // Sobrecarga del operador << para permitir la salida de objetos Persona a un flujo de salida
-    friend std::ostream& operator<<(std::ostream& os, Objeto& transaccion);
+    friend std::ostream& operator<<(std::ostream& os, Objeto& otra);
+    bool operator<(const Objeto& otra) const;
+    bool operator>(const Objeto& otra) const;
+    bool operator==(const Objeto& otra) const;
     
 };
 

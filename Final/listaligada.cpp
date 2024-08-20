@@ -17,7 +17,6 @@ ListaLigada::~ListaLigada() {
         actual = siguiente; // Avanzar al siguiente nodo
     }
 }
-
 // Método para agregar un nodo al final de la lista
 void ListaLigada::agregar(const Objeto& objeto) {
     Nodo* nuevoNodo = new Nodo(objeto); // Crear un nuevo nodo con los datos de objeto
@@ -53,7 +52,7 @@ void ListaLigada::intercambiar(Nodo* nodo1, Nodo* nodo2) {
 
 
 
-void ListaLigada::ordenarBurbuja(std::string str1,std::string str2, int criterio) {
+void ListaLigada::ordenarBurbuja() {
     if (cabeza == nullptr) return; // Si la lista está vacía, no hacer nada
 
     bool intercambiado;
@@ -61,8 +60,9 @@ void ListaLigada::ordenarBurbuja(std::string str1,std::string str2, int criterio
         intercambiado = false;
         Nodo* actual = cabeza;
         while (actual->siguiente != nullptr) {
+            bool temp = actual->data>actual->siguiente->data;
 
-            if (actual->data.comparacion(actual->siguiente->data,str1,str2,criterio)) {
+            if (temp) {
                 intercambiar(actual, actual->siguiente); // Intercambiar nodos si están en el orden incorrecto
                 intercambiado = true;
             }
@@ -70,6 +70,10 @@ void ListaLigada::ordenarBurbuja(std::string str1,std::string str2, int criterio
         }
     } while (intercambiado); // Repetir hasta que no haya intercambios
 }
+
+
+
+
 
 // Método auxiliar para dividir la lista en dos partes según el pivote
 Nodo* ListaLigada::dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuevoAlto) {
@@ -82,7 +86,7 @@ Nodo* ListaLigada::dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuev
 
     while (actual != pivote) {
         // actual->data < pivote->data
-        if (true) {
+        if (actual->data > pivote->data) {
             if (*nuevoBajo == nullptr) *nuevoBajo = actual;
             previo = actual;
             actual = actual->siguiente; // Avanzar al siguiente nodo
@@ -162,33 +166,36 @@ Nodo* ListaLigada::split(Nodo* head) {
 }
 
 // Método auxiliar para fusionar dos listas ordenadas
-Nodo* ListaLigada::merge(Nodo* left, Nodo* right) {
+Nodo* ListaLigada::merge(Nodo* left, Nodo* right, int criterio) {
     if (left == nullptr) return right; // Si la lista izquierda está vacía, devolver la lista derecha
     if (right == nullptr) return left; // Si la lista derecha está vacía, devolver la lista izquierda
 // left->data>right->data
-            if (true) {
-        left->siguiente = merge(left->siguiente, right); // Fusionar el resto de la lista izquierda con la lista derecha
+bool temp ;
+if (criterio == 0) temp = left->data<right->data;
+if (criterio == 1) temp = left->data>right->data;
+            if (temp) {
+        left->siguiente = merge(left->siguiente, right,criterio); // Fusionar el resto de la lista izquierda con la lista derecha
         return left;
     } else {
-        right->siguiente = merge(left, right->siguiente); // Fusionar la lista izquierda con el resto de la lista derecha
+        right->siguiente = merge(left, right->siguiente,criterio); // Fusionar la lista izquierda con el resto de la lista derecha
         return right;
     }
 }
 
 // Método auxiliar para realizar el Merge Sort de manera recursiva
-Nodo* ListaLigada::mergeSortRec(Nodo* head) {
+Nodo* ListaLigada::mergeSortRec(Nodo* head, int criterio) {
     if (head == nullptr || head->siguiente == nullptr) {
         return head; // Si la lista está vacía o tiene un solo nodo, ya está ordenada
     }
 
     Nodo* mitad = split(head); // Dividir la lista en dos mitades
-    Nodo* izquierda = mergeSortRec(head); // Ordenar la primera mitad
-    Nodo* derecha = mergeSortRec(mitad); // Ordenar la segunda mitad
+    Nodo* izquierda = mergeSortRec(head,criterio); // Ordenar la primera mitad
+    Nodo* derecha = mergeSortRec(mitad,criterio); // Ordenar la segunda mitad
 
-    return merge(izquierda, derecha); // Fusionar las dos mitades ordenadas
+    return merge(izquierda, derecha,criterio); // Fusionar las dos mitades ordenadas
 }
 
 // Método para ordenar la lista usando el método de Merge Sort
-void ListaLigada::mergeSort() {
-    cabeza = mergeSortRec(cabeza); // Ordenar la lista y actualizar la cabeza
+void ListaLigada::mergeSort(int criterio) {
+    cabeza = mergeSortRec(cabeza, criterio); // Ordenar la lista y actualizar la cabeza
 }

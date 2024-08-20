@@ -19,11 +19,13 @@ using namespace std;
 // Constructor que inicializa los atributos
 
 Objeto::Objeto( const std::string a){
+
    
     if (a == "medico")cargarMedico();
     else if(a =="transaccion") cargarTransferencia();
     else if(a == "vuelo") cargarVuelos();
     else if(a == "pelicula") cargarPeliculas();
+    else if(a == "electronicos") cargarElectronicos();
 
     
 }
@@ -42,6 +44,13 @@ void Objeto::cargarMedico(){
     std::string fecha1 = generador.fechaAleatoria(1950,2020);
     std::string diagnostico = generador.obtenerItemAleatorio2();
     std::string fecha2 = generador.fechaAleatoria(1950,2020);
+    criterio1 = id;
+    criterio2 = nombre;
+    if(fecha1<fecha2){
+        std:string temporal = fecha1;
+        fecha1 = fecha2;
+        fecha2 = fecha1;
+    }
     
         hashmap.insert({"fecha_salida", fecha1});
         hashmap.insert({"diagnostico", diagnostico});
@@ -56,19 +65,22 @@ void Objeto::cargarMedico(){
 void Objeto::cargarTransferencia(){
     hashmap.clear();
     generador.limpiar();
-    generador.leerDesdeArchivo("nombre.txt");
+    generador.leerDesdeArchivo("transaccion.txt");
 
-    std::string cuenta = std::to_string(generador.generarNumeroEntero(11111,99999));
+    int cuenta = generador.generarNumeroEntero(111111,999999);
     std::string tipo =  generador.obtenerItemAleatorio();
-    std::string monto = std::to_string(generador.generarNumeroEntero(1000,20000));
+    int monto = generador.generarNumeroEntero(1000,2000000);
     std::string fecha = generador.fechaAleatoria(1950,2020);
     std::string hora = generador.horaAleatoria();
 
+    criterio1 = cuenta;
+    criterio2 = fecha;
+
         hashmap.insert({"hora", hora});
         hashmap.insert({"fecha", fecha});
-        hashmap.insert({"monto", monto});
+        hashmap.insert({"monto", std::to_string(monto)});
         hashmap.insert( {"tipo", tipo});
-        hashmap.insert({"cuenta",cuenta });
+        hashmap.insert({"cuenta",std::to_string(cuenta) });
 
 }
 
@@ -77,17 +89,18 @@ void Objeto::cargarVuelos(){
     generador.limpiar();
     generador.leerDesdeArchivo("ciudades.txt");
 
-    std::string vuelo = std::to_string(generador.generarNumeroEntero(11111,99999));
+    int vuelo = generador.generarNumeroEntero(11111,99999);
     std::string origen = generador.obtenerItemAleatorio();
     std::string destino = generador.obtenerItemAleatorio();
     std::string hora = generador.horaAleatoria();
-    std::string capacidad  = std::to_string(generador.generarNumeroEntero(100,300));
-
-        hashmap.insert({"capacidad", capacidad});
+    int capacidad  = generador.generarNumeroEntero(100,300);
+    criterio1 = vuelo;
+    criterio2 = hora;
+        hashmap.insert({"capacidad", std::to_string(capacidad)});
         hashmap.insert({"hora", hora});
         hashmap.insert({"destino", destino});
         hashmap.insert( {"origen", origen});
-        hashmap.insert({"vuelo",vuelo });
+        hashmap.insert({"vuelo",std::to_string(vuelo) });
 
 }
 
@@ -96,29 +109,41 @@ void Objeto::cargarPeliculas(){
     hashmap.clear();
     generador.limpiar();
     generador.leerDesdeArchivo("nombre.txt");
-    generador.leerDesdeArchivo2("nombre.txt");
+    generador.leerDesdeArchivo2("apellido.txt");
+    generador.leerDesdeArchivo3("peliculas.txt");
 
-    std::string titulo = generador.obtenerItemAleatorio2();
-    std::string director = generador.obtenerItemAleatorio();
-    std::string lanzamiento = generador.fechaAleatoria(1950,2020);
-    std::string duracion =  std::to_string(generador.generarNumeroEntero(45,130));
-    std::string calificacion  = std::to_string(generador.generarNumeroEntero(0,10));
-    atributos = {"titulo", "director","lanzamiento","duracion","calificacion"};
-    valores = {titulo, director, lanzamiento, duracion, calificacion};
+    std::string titulo = generador.obtenerItemAleatorio3();
+    std::string director = generador.obtenerItemAleatorio()+" "+generador.obtenerItemAleatorio2();
+    int lanzamiento = generador.generarNumeroEntero(1950,2020);
+    int duracion =  generador.generarNumeroEntero(45,130);
+    int calificacion  = generador.generarNumeroEntero(0,10);
+    criterio1 = lanzamiento;
+    criterio2 = titulo;
+
+        hashmap.insert({"calificacion", std::to_string(calificacion)});
+        hashmap.insert({"duracion", std::to_string(duracion)});
+        hashmap.insert({"lanzamiento", std::to_string(lanzamiento)});
+        hashmap.insert( {"director", director});
+        hashmap.insert({"titulo",titulo });
 
 }
 void Objeto::cargarElectronicos(){
     hashmap.clear();
     generador.limpiar();
-    generador.leerDesdeArchivo("nombre.txt");
-    generador.leerDesdeArchivo2("nombre.txt");
+    generador.leerDesdeArchivo("electrodomesticos.txt");
+    generador.leerDesdeArchivo2("marcas.txt");
 
     std::string nombre = generador.obtenerItemAleatorio();
     std::string marca = generador.obtenerItemAleatorio2();
-    std::string especificaciones =  std::to_string(generador.generarNumeroEntero(100,500));
+    int especificaciones =  generador.generarNumeroEntero(100,500);
     std::string fecha = generador.fechaAleatoria(1950,2020);
-    atributos = {"nombre", "marca","especificaciones","fecha"};
-    valores = {nombre, marca, especificaciones, fecha};
+    criterio1 = especificaciones;
+    criterio2 = fecha;
+
+        hashmap.insert({"fecha",fecha });
+        hashmap.insert( {"especificaciones", std::to_string(especificaciones)+"W"});
+        hashmap.insert({"marca", marca});
+        hashmap.insert({"nombre", nombre});
 
 }
 
@@ -137,7 +162,7 @@ bool isNumber(const std::string& str) {
 }
 
 
-bool Objeto::comparacion(const Objeto& otra,std::string str1,std::string str2,int criterio){
+bool Objeto::comparacion(const Objeto& otra,std::string str1,std::string str2,int criterio) const{
     
     if (criterio == 1) return (std::stoi(getHashmap()[str1])<std::stoi(otra.getHashmap()[str1]));
     else if (criterio == 2) return (getHashmap()[str2]<otra.getHashmap()[str2]);
@@ -147,16 +172,36 @@ bool Objeto::comparacion(const Objeto& otra,std::string str1,std::string str2,in
 
 }
 
+int Objeto::getCriterio1() const{
+    return criterio1;
+}
+std::string Objeto::getCriterio2() const{
+    return criterio2;
+}
+
 std::unordered_map<std::string, std::string> Objeto::getHashmap() const{
     return hashmap;
+}
+
+
+// Sobrecarga del operador < para comparar dos objetos Persona por edad
+bool Objeto::operator<(const Objeto& otra) const {
+    return getCriterio1() < otra.getCriterio1();
+}
+bool Objeto::operator>(const Objeto& otra) const {
+    return getCriterio2() > otra.getCriterio2();
+}
+
+// Sobrecarga del operador == para comparar dos objetos Persona por edad
+bool Objeto::operator==(const Objeto& otra) const {
+    return getCriterio2() == otra.getCriterio2();
 }
 
 std::ostream& operator<<(std::ostream& os, Objeto& objeto ) {
 
     std::string ans;
-
-        for (const auto& pair : objeto.getHashmap()) {
-        ans +=  pair.first + ": " + pair.second+" ";
+        for (const auto& items : objeto.getHashmap()) {
+        ans +=  items.first + ": " + items.second+" ";
     }
 
     os << ans;

@@ -71,14 +71,14 @@ std::string Archivo::obtenerItemAleatorio2(){
         return "No hay nombres en la lista.";
     }
     int indiceAleatorio = std::rand() % items2.size();
-    return items[indiceAleatorio];
+    return items2[indiceAleatorio];
 }
 std::string Archivo::obtenerItemAleatorio3(){
     if (items.empty()) {
         return "No hay nombres en la lista.";
     }
     int indiceAleatorio = std::rand() % items3.size();
-    return items[indiceAleatorio];
+    return items3[indiceAleatorio];
 }
 
 // Método para generar una fecha aleatoria en formato dia/mes/año

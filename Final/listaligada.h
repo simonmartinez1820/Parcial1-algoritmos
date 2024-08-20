@@ -21,10 +21,10 @@ private:
     Nodo* split(Nodo* head);
 
     // Método auxiliar para fusionar dos listas ordenadas
-    Nodo* merge(Nodo* left, Nodo* right);
+    Nodo* merge(Nodo* left, Nodo* right,int);
 
     // Método auxiliar para realizar el Merge Sort de manera recursiva
-    Nodo* mergeSortRec(Nodo* head);
+    Nodo* mergeSortRec(Nodo* head,int);
 
     
 
@@ -48,11 +48,11 @@ public:
 
     // Método para ordenar la lista usando el método de burbuja
 
-void ordenarBurbuja(std::string ,std::string , int);
+void ordenarBurbuja();
     // void ordenarBurbuja();
 
     // Método para ordenar la lista usando el método de Merge Sort
-    void mergeSort();
+    void mergeSort(int);
 
     // Método para ordenar la lista usando el método de QuickSort
     void quickSort();

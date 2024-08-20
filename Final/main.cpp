@@ -6,54 +6,50 @@
 #include "listaligada.h"
 #include <variant>
 
-void listas(){
-        ListaLigada lista;
-        for (int i = 0; i < 20; i++) {
-    lista.agregar(Objeto("medico"));
+
+
+    // if (a == "medico")cargarMedico();
+    // else if(a =="transaccion") cargarTransferencia();
+    // else if(a == "vuelo") cargarVuelos();
+    // else if(a == "pelicula") cargarPeliculas();
+    // else if(a == "electronicos") cargarElectronicos();
+
+
+
+
+
+void listas(int a){
+        
+    std::vector<std::string> vector = {"medico", "transaccion", "vuelo", "pelicula", "electronicos"};
+    for (int i = 0; i < vector.size(); i++) {
+    ListaLigada lista;
+    std::cout<<"==========================================="<<std::endl;
+        for (int j = 0; j < a; j++) {
+            lista.agregar(Objeto(vector[i]));
+        }
+        lista.imprimir();
+        
     }
-    lista.imprimir();
-
-std::cout<<"==========================================="<<std::endl;
-    ListaLigada lista2;
-        for (int i = 0; i < 20; i++) {
-    lista2.agregar(Objeto("medico"));
-    }
-    lista2.imprimir();
-std::cout<<"==========================================="<<std::endl;
-    ListaLigada lista3;
-        for (int i = 0; i < 20; i++) {
-    lista3.agregar(Objeto("medico"));
-    }
-    lista3.imprimir();
-
-std::cout<<"==========================================="<<std::endl;
-    ListaLigada lista4;
-        for (int i = 0; i < 20; i++) {
-    lista4.agregar(Objeto("medico"));
-    }
-    lista4.imprimir();
-}
-
-
-std::variant<int,std::string> metodo(int a){
-    if (a==1) return 1;
-    else return "hola";
-
 }
 
 
 int main() {
-        ListaLigada lista;
-        for (int i = 0; i < 2000; i++) {
-            
-    lista.agregar(Objeto("vuelo"));
+    ListaLigada lista,lista2,lista3;
+    for (int i = 0; i < 20000; i++) {
+        lista.agregar(Objeto("medico"));
+
     }
-    lista.imprimir();
-std::cout<<"==========================================="<<std::endl;
-    lista.ordenarBurbuja("vuelo","hora",1);
-    lista.imprimir();
 
+    auto inicio = std::chrono::high_resolution_clock::now();
+    std::cout<<"==========================================="<<std::endl;
+    lista.ordenarBurbuja();
+    auto fin = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duracion = fin - inicio;
+    std::cout << "Tiempo de bubble: " << duracion.count() << " segundos" << std::endl;
 
+    // listas(5);
+
+return 0;
 
 }
 
