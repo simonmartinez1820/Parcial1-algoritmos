@@ -1,0 +1,30 @@
+Refrigerador
+Congelador
+Lavadora
+Secadora
+Horno
+Microondas
+Lavavajillas
+Estufa
+Aspiradora
+Plancha
+Batidora
+Licuadora
+Cafetera
+Tostadora
+Exprimidor
+Hervidor
+Robot de cocina
+Ventilador
+Aire acondicionado
+Calefactor
+Deshumidificador
+Purificador de aire
+Placa de inducción
+Horno microondas de convección
+Cocina eléctrica
+Centrífuga
+Descalcificador
+Cafetera espresso
+Máquina de hielo
+Deshumidificador

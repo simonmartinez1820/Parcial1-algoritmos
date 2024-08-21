@@ -20,13 +20,10 @@ using variable = std::variant<int, std::string>;
 class Objeto {
 private:
 
-        std::vector<std::string> atributos;
-        std::vector<std::string> valores;
+
         std::unordered_map<std::string, std::string> hashmap;
         int criterio1;
         std::string criterio2;
-
-        // hacerlos funciones del objeto para llamarlo
     
 
 public:
@@ -35,21 +32,26 @@ public:
     Objeto(const std::string);
     
     std::unordered_map<std::string, std::string> getHashmap() const;
-
-
-int getCriterio1() const;
-std::string getCriterio2() const;
-    bool comparacion(const Objeto& otra,std::string ,std::string ,int) const;
+    int getCriterio1() const;
+    std::string getCriterio2() const;
+    bool comparacion(const Objeto& otra,int) const;
     void cargarMedico();
-    void cargarTransferencia();
-    void cargarVuelos();
     void cargarPeliculas();
+    void cargarEmpleados();
+    void cargarVuelos();
     void cargarElectronicos();
+    void cargarTransferencia();
+    void cargarStock();
+    void cargarEstudiantes();
+    void cargarBiblioteca();
+    void cargarVentas();
 
     // Sobrecarga del operador << para permitir la salida de objetos Persona a un flujo de salida
     friend std::ostream& operator<<(std::ostream& os, Objeto& otra);
     bool operator<(const Objeto& otra) const;
     bool operator>(const Objeto& otra) const;
+    bool operator<=(const Objeto& otra) const;
+    bool operator>=(const Objeto& otra) const;
     bool operator==(const Objeto& otra) const;
     
 };

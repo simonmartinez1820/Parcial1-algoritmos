@@ -9,10 +9,10 @@ private:
     Nodo* cabeza; // Puntero al primer nodo de la lista ligada
 
     // Método auxiliar para dividir la lista en dos partes según el pivote
-    Nodo* dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuevoAlto);
+    Nodo* dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuevoAlto, int);
 
     // Método auxiliar para realizar el QuickSort de manera recursiva
-    void quickSortRec(Nodo* bajo, Nodo* alto);
+    void quickSortRec(Nodo* bajo, Nodo* alto, int);
 
     // Método auxiliar para obtener el último nodo de una lista
     Nodo* obtenerUltimo(Nodo* cabeza);
@@ -48,14 +48,14 @@ public:
 
     // Método para ordenar la lista usando el método de burbuja
 
-void ordenarBurbuja();
+    void ordenarBurbuja(int a);
     // void ordenarBurbuja();
 
     // Método para ordenar la lista usando el método de Merge Sort
     void mergeSort(int);
 
     // Método para ordenar la lista usando el método de QuickSort
-    void quickSort();
+    void quickSort(int a);
 };
 
 #endif // LISTALIGADA_H

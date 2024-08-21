@@ -1,7 +1,7 @@
 #include "listaligada.h"
 #include <iostream>
 #include <variant>
-#include <chrono> // Biblioteca para medir el tiempo de ejecución
+#include <chrono> 
 
 
 
@@ -52,7 +52,7 @@ void ListaLigada::intercambiar(Nodo* nodo1, Nodo* nodo2) {
 
 
 
-void ListaLigada::ordenarBurbuja() {
+void ListaLigada::ordenarBurbuja(int a) {
     if (cabeza == nullptr) return; // Si la lista está vacía, no hacer nada
 
     bool intercambiado;
@@ -60,7 +60,9 @@ void ListaLigada::ordenarBurbuja() {
         intercambiado = false;
         Nodo* actual = cabeza;
         while (actual->siguiente != nullptr) {
-            bool temp = actual->data>actual->siguiente->data;
+            bool temp;
+            if(a) temp = actual->data > actual->siguiente->data;
+            else temp = actual->data >= actual->siguiente->data;
 
             if (temp) {
                 intercambiar(actual, actual->siguiente); // Intercambiar nodos si están en el orden incorrecto
@@ -74,9 +76,8 @@ void ListaLigada::ordenarBurbuja() {
 
 
 
-
 // Método auxiliar para dividir la lista en dos partes según el pivote
-Nodo* ListaLigada::dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuevoAlto) {
+Nodo* ListaLigada::dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuevoAlto,int a) {
     if (bajo == nullptr || alto == nullptr) return nullptr; // Verificar si la lista es válida
 
     Nodo* pivote = alto; // El último nodo es el pivote
@@ -86,7 +87,11 @@ Nodo* ListaLigada::dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuev
 
     while (actual != pivote) {
         // actual->data < pivote->data
-        if (actual->data > pivote->data) {
+        bool comparacion;
+        if(a)  comparacion=actual->data > actual->siguiente->data;
+        else comparacion =actual->data >= actual->siguiente->data;
+
+        if (comparacion) {
             if (*nuevoBajo == nullptr) *nuevoBajo = actual;
             previo = actual;
             actual = actual->siguiente; // Avanzar al siguiente nodo
@@ -107,25 +112,25 @@ Nodo* ListaLigada::dividir(Nodo* bajo, Nodo* alto, Nodo** nuevoBajo, Nodo** nuev
 }
 
 // Método auxiliar para realizar el QuickSort de manera recursiva
-void ListaLigada::quickSortRec(Nodo* bajo, Nodo* alto) {
+void ListaLigada::quickSortRec(Nodo* bajo, Nodo* alto, int a) {
     if (bajo != nullptr && alto != nullptr && bajo != alto && bajo != alto->siguiente) {
         Nodo* nuevoBajo = nullptr;
         Nodo* nuevoAlto = nullptr;
 
-        Nodo* pivote = dividir(bajo, alto, &nuevoBajo, &nuevoAlto);
+        Nodo* pivote = dividir(bajo, alto, &nuevoBajo, &nuevoAlto, a);
 
         if (nuevoBajo != pivote) {
             Nodo* temp = nuevoBajo;
             while (temp->siguiente != pivote) temp = temp->siguiente;
             temp->siguiente = nullptr;
 
-            quickSortRec(nuevoBajo, temp);
+            quickSortRec(nuevoBajo, temp, a);
 
             temp = obtenerUltimo(nuevoBajo);
             temp->siguiente = pivote;
         }
 
-        quickSortRec(pivote->siguiente, nuevoAlto);
+        quickSortRec(pivote->siguiente, nuevoAlto, a);
     }
 }
 
@@ -138,9 +143,9 @@ Nodo* ListaLigada::obtenerUltimo(Nodo* cabeza) {
 }
 
 // Método para ordenar la lista usando el método de QuickSort
-void ListaLigada::quickSort() {
+void ListaLigada::quickSort(int a) {
     Nodo* cola = obtenerUltimo(cabeza);
-    quickSortRec(cabeza, cola);
+    quickSortRec(cabeza, cola, a);
 }
 
 
@@ -169,11 +174,12 @@ Nodo* ListaLigada::split(Nodo* head) {
 Nodo* ListaLigada::merge(Nodo* left, Nodo* right, int criterio) {
     if (left == nullptr) return right; // Si la lista izquierda está vacía, devolver la lista derecha
     if (right == nullptr) return left; // Si la lista derecha está vacía, devolver la lista izquierda
-// left->data>right->data
-bool temp ;
-if (criterio == 0) temp = left->data<right->data;
-if (criterio == 1) temp = left->data>right->data;
-            if (temp) {
+    // left->data>right->data
+    bool temp ;
+    if (criterio) temp = left->data>right->data;
+    else temp = left->data>=right->data;
+
+    if (temp) {
         left->siguiente = merge(left->siguiente, right,criterio); // Fusionar el resto de la lista izquierda con la lista derecha
         return left;
     } else {
